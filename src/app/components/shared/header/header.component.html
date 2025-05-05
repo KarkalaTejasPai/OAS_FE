@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark header">
+<!-- <nav class="navbar navbar-expand-lg navbar-dark header">
   <div class="container">
     <a class="navbar-brand" routerLink="/">Auction Pro</a>
     <button
@@ -14,28 +14,6 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
-        <ng-container *ngIf="userType === 'buyer'">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/buyer-dashboard">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/auction-list">Auctions</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/transaction-history">My Bids</a>
-          </li>
-        </ng-container>
-        <ng-container *ngIf="userType === 'seller'">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/seller-dashboard">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/create-auction">Create Auction</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/transaction-history">Sales</a>
-          </li>
-        </ng-container>
         <ng-container *ngIf="userType === 'admin'">
           <li class="nav-item">
             <a class="nav-link" routerLink="/admin-dashboard">Dashboard</a>
@@ -44,20 +22,99 @@
             <a class="nav-link" routerLink="/auction-list">Manage Auctions</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/transaction-history"
-              >Transactions</a
-            >
+            <a class="nav-link" routerLink="/transaction-history">Transactions</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/review-list">Reviews</a>
           </li>
         </ng-container>
+        <ng-container</ng-container>>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/user-dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/auction-list">Auctions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/transaction-history">My Transactions</a>
+          </li>
+        </ng-container>
       </ul>
-      <div class="navbar-nav">
-        <a class="nav-link" routerLink="/login">Login</a>
-      </div>
-      <div class="navbar-nav">
-        <a class="nav-link" routerLink="/login">Signup</a>
+      
+      <ng-container *ngIf="!isLoggedIn; else profileDropdown">
+        <div class="navbar-nav">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </div>
+        <div class="navbar-nav">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </div>
+      </ng-container>
+      
+      <ng-template #profileDropdown>
+        <div class="navbar-nav">
+          <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Profile
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" routerLink="/profile">My Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="javascript:void(0)" (click)="logout()">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</nav> -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">OAS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/app-auctions" routerLinkActive="active">Auction</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/app-product" routerLinkActive="active">Explore</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/app-sell-products" routerLinkActive="active">Sell Product</a>
+        </li>
+      </ul>
+      
+      <!-- Search Form -->
+      <form class="d-flex me-3">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+
+      <!-- Auth Buttons -->
+      <div class="d-flex">
+        <ng-container *ngIf="!isLoggedIn()">
+          <button class="btn btn-primary me-2" routerLink="/login">Login</button>
+          <button class="btn btn-secondary" routerLink="/register">Sign Up</button>
+        </ng-container>
+        
+        <ng-container *ngIf="isLoggedIn()">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              Profile
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item" routerLink="/profile">My Profile</a></li>
+              <li><a class="dropdown-item" routerLink="/my-bids">My Bids</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item text-danger" (click)="logout()">Logout</button></li>
+            </ul>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

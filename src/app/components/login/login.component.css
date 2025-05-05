@@ -1,29 +1,92 @@
-.login-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+.parent {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #77bade, #35576b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-.card {
-  border-radius: 10px;
-  overflow: hidden;
+.container {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+.container:hover {
+    transform: scale(1.02);
 }
 
-.card-header {
-  background-color: var(--primary);
-  border-bottom: none;
+h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #444;
 }
 
-.input-group-text {
-  background-color: #f8f9fa;
-  border-right: none;
+.input-group {
+    display: flex;
+    align-items: center;
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 10px 0;
+}
+.input-group:hover {
+    background: #e6e6e6;
+}
+.input-group i {
+    margin-right: 10px;
+    color: #888;
 }
 
-.form-control {
-  border-left: none;
+input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    outline: none;
 }
 
-.btn-primary {
-  padding: 0.75rem 1.25rem;
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #77bade, #35576b);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+@media (max-width: 480px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+}
+

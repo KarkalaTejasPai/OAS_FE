@@ -7,7 +7,7 @@
             <h3 class="mb-0">User Registration</h3>
           </div>
           <div class="card-body p-4">
-            <form>
+            <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
               <div class="row mb-3">
                 <div class="col-md-6 mb-3 mb-md-0">
                   <label for="firstName" class="form-label">First Name</label>
@@ -15,17 +15,15 @@
                     type="text"
                     class="form-control"
                     id="firstName"
+                    name="username"
+                    [(ngModel)]="username"
+                    required
+                    #usernameInput="ngModel"
                     placeholder="John"
                   />
-                </div>
-                <div class="col-md-6">
-                  <label for="lastName" class="form-label">Last Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="lastName"
-                    placeholder="Doe"
-                  />
+                  <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)" class="text-danger">
+                    <small *ngIf="usernameInput.errors?.['required']">Name is required</small>
+                  </div>
                 </div>
               </div>
               <div class="mb-3">
@@ -34,8 +32,17 @@
                   type="email"
                   class="form-control"
                   id="email"
+                  name="email"
+                  [(ngModel)]="email"
+                  required
+                  email
+                  #emailInput="ngModel"
                   placeholder="name@example.com"
                 />
+                <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="text-danger">
+                  <small *ngIf="emailInput.errors?.['required']">Email is required</small>
+                  <small *ngIf="emailInput.errors?.['email']">Please enter a valid email</small>
+                </div>
               </div>
               <div class="mb-3">
                 <label for="phone" class="form-label">Phone Number</label>
@@ -43,8 +50,15 @@
                   type="tel"
                   class="form-control"
                   id="phone"
+                  name="phone"
+                  [(ngModel)]="phone"
+                  required
+                  #phoneInput="ngModel"
                   placeholder="(123) 456-7890"
                 />
+                <div *ngIf="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="text-danger">
+                  <small *ngIf="phoneInput.errors?.['required']">Phone number is required</small>
+                </div>
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
@@ -52,46 +66,37 @@
                   type="password"
                   class="form-control"
                   id="password"
+                  name="password"
+                  [(ngModel)]="password"
+                  required
+                  #passwordInput="ngModel"
                   placeholder="Create a strong password"
                 />
+                <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="text-danger">
+                  <small *ngIf="passwordInput.errors?.['required']">Password is required</small>
+                </div>
               </div>
               <div class="mb-4">
-                <label for="confirmPassword" class="form-label"
-                  >Confirm Password</label
-                >
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
                 <input
                   type="password"
                   class="form-control"
                   id="confirmPassword"
+                  name="confirmPassword"
+                  [(ngModel)]="confirmPassword"
+                  required
+                  #confirmPasswordInput="ngModel"
                   placeholder="Confirm your password"
                 />
-              </div>
-              <!-- <div class="mb-4">
-                <label for="role" class="form-label">Register as</label>
-                <select class="form-select" id="role">
-                  <option selected disabled>Select your role</option>
-                  <option value="buyer">Buyer</option>
-                  <option value="seller">Seller</option>
-                </select>
-              </div> -->
-              <div class="form-check mb-4">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="termsAgreement"
-                />
-                <label class="form-check-label" for="termsAgreement">
-                  I agree to the
-                  <a href="#" class="text-decoration-none">Terms of Service</a>
-                  and
-                  <a href="#" class="text-decoration-none">Privacy Policy</a>
-                </label>
+                <div *ngIf="confirmPasswordInput.dirty && !validatePassword()" class="text-danger">
+                  <small>Passwords do not match</small>
+                </div>
               </div>
               <div class="d-grid">
                 <button
-                  type="button"
+                  type="submit"
                   class="btn btn-primary"
-                  routerLink="/buyer-dashboard"
+                  [disabled]="!registerForm.valid || !validatePassword()"
                 >
                   Create Account
                 </button>
@@ -101,7 +106,7 @@
           <div class="card-footer text-center py-3">
             <p class="mb-0">
               Already have an account?
-              <a routerLink="/" class="text-decoration-none">Sign in</a>
+              <a routerLink="/login" class="text-decoration-none">Sign in</a>
             </p>
           </div>
         </div>

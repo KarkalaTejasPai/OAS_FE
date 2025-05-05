@@ -1,4 +1,4 @@
-<div class="login-page">
+<!-- <div class="login-page">
   <div class="container">
     <div class="row min-vh-100 justify-content-center align-items-center">
       <div class="col-md-6 col-lg-5">
@@ -51,7 +51,7 @@
                 <button
                   type="button"
                   class="btn btn-primary btn-lg"
-                  routerLink="/buyer-dashboard"
+                  routerLink=""
                 >
                   Sign In
                 </button>
@@ -73,4 +73,55 @@
     </div>
   </div>
   <app-footer></app-footer>
+</div> -->
+<div class="parent">
+  <div class="container">
+    <h2>Login</h2>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <!-- Username Field -->
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input 
+          type="text" 
+          name="username" 
+          [(ngModel)]="username" 
+          #usernameRef="ngModel" 
+          required 
+          minlength="3"
+          placeholder="Username" />
+      </div>
+      <div *ngIf="submitted && usernameRef.errors" class="error">
+        <div *ngIf="usernameRef.errors['required']">Username is required.</div>
+        <div *ngIf="usernameRef.errors['minlength']">Username must be at least 3 characters.</div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input 
+          type="password" 
+          name="password" 
+          [(ngModel)]="password" 
+          #passwordRef="ngModel" 
+          required 
+          minlength="6"
+          placeholder="Password" />
+      </div>
+      <div *ngIf="submitted && passwordRef.errors" class="error">
+        <div *ngIf="passwordRef.errors['required']">Password is required.</div>
+        <div *ngIf="passwordRef.errors['minlength']">Password must be at least 6 characters.</div>
+      </div>
+
+      <!-- Login Error -->
+      <div *ngIf="loginError" class="error">
+        {{ loginError }}
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="loginForm.invalid && submitted">Login</button>
+    </form>
+
+    <!-- Signup Link -->
+    <p>Don't have an account? <a routerLink="/app-sign-up">Register here</a></p>
+  </div>
 </div>

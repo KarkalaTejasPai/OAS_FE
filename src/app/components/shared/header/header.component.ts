@@ -1,15 +1,37 @@
-import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { RouterLink } from "@angular/router";
+import { Component } from '@angular/core';
+import { RouterModule, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../Services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: "app-header",
+  selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule],
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.css"],
+  imports: [RouterModule, RouterLink, CommonModule, FormsModule],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
-
 export class HeaderComponent {
-  @Input() userType: string = "seller";
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  get userId(): string {
+    return this.authService.getUserId() || '';
+  }
+
+  get userRole(): string {
+    return this.authService.getUserRole() || 'User';
+  }
+
+  isLoggedIn(): boolean {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  }
+
+  logout(): void {
+    this.authService.clearToken();
+    this.router.navigate(['/']);
+  }
 }

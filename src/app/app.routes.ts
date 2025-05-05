@@ -18,7 +18,7 @@ export const routes: Routes = [
   { path: "admin-dashboard", component: AdminDashboardComponent },
   { path: "auction-list", component: AuctionListComponent },
   { path: "auction-detail", component: AuctionDetailComponent },
-  {path: "", component:HomeComponent}
+  { path: "", component: HomeComponent }
   // { path: 'create-auction', component: CreateAuctionComponent },
   // { path: 'payment', component: PaymentComponent },
   // { path: 'transaction-history', component: TransactionHistoryComponent },
