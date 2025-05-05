@@ -17,3 +17,9 @@
 .nav-link:hover {
   transform: translateY(-2px);
 }
+
+.header{
+  background-color: #35576b;
+  padding: 20px;
+  text-align: center;
+}
