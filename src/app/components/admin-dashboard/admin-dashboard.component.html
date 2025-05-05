@@ -1,0 +1,273 @@
+<div class="admin-dashboard d-flex flex-column min-vh-100">
+  <app-header userType="admin"></app-header>
+  
+  <div class="container my-4 flex-grow-1">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h2>Admin Dashboard</h2>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <div class="card text-white bg-primary h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h6 class="card-title">Total Users</h6>
+                <h2 class="mb-0">1,254</h2>
+              </div>
+              <div class="stat-icon">
+                <i class="bi bi-people-fill"></i>
+              </div>
+            </div>
+            <p class="card-text mt-3"><small>+24 this week</small></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-success h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h6 class="card-title">Active Auctions</h6>
+                <h2 class="mb-0">156</h2>
+              </div>
+              <div class="stat-icon">
+                <i class="bi bi-tag-fill"></i>
+              </div>
+            </div>
+            <p class="card-text mt-3"><small>+12 this week</small></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-dark bg-warning h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h6 class="card-title">Total Revenue</h6>
+                <h2 class="mb-0">$45,289</h2>
+              </div>
+              <div class="stat-icon">
+                <i class="bi bi-currency-dollar"></i>
+              </div>
+            </div>
+            <p class="card-text mt-3"><small>+8.5% this month</small></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-danger h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h6 class="card-title">Reports</h6>
+                <h2 class="mb-0">5</h2>
+              </div>
+              <div class="stat-icon">
+                <i class="bi bi-flag-fill"></i>
+              </div>
+            </div>
+            <p class="card-text mt-3"><small>Requires attention</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Recent Users</h5>
+            <button class="btn btn-sm btn-outline-primary">View All Users</button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Joined</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of recentUsers">
+                    <td>
+                      <div>
+                        <span class="fw-medium">{{user.name}}</span>
+                        <div class="small text-muted">{{user.email}}</div>
+                      </div>
+                    </td>
+                    <td>{{user.role}}</td>
+                    <td>{{user.joined}}</td>
+                    <td>
+                      <span [ngClass]="{
+                        'badge bg-success': user.status === 'Active',
+                        'badge bg-warning text-dark': user.status === 'Pending'
+                      }">{{user.status}}</span>
+                    </td>
+                    <td>
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-primary">View</button>
+                        <button class="btn btn-outline-secondary">Edit</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Recent Auctions</h5>
+            <button class="btn btn-sm btn-outline-primary" routerLink="/auction-list">View All Auctions</button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Auction</th>
+                    <th>Seller</th>
+                    <th>Current Bid</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let auction of recentAuctions">
+                    <td>
+                      <div>
+                        <span class="fw-medium">{{auction.title}}</span>
+                        <div class="small text-muted">{{auction.bids}} bids</div>
+                      </div>
+                    </td>
+                    <td>{{auction.seller}}</td>
+                    <td>${{auction.currentBid}}</td>
+                    <td>
+                      <span [ngClass]="{
+                        'badge bg-primary': auction.status === 'Active',
+                        'badge bg-success': auction.status === 'Completed'
+                      }">{{auction.status}}</span>
+                    </td>
+                    <td>
+                      <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-primary" routerLink="/auction-detail">View</button>
+                        <button class="btn btn-outline-danger">Flag</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">System Notifications</h5>
+          </div>
+          <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+              <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h6 class="mb-1">New User Registration</h6>
+                  <small class="text-muted">3 hours ago</small>
+                </div>
+                <p class="mb-1 small">A new admin account requires verification.</p>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h6 class="mb-1">Payment System Alert</h6>
+                  <small class="text-muted">6 hours ago</small>
+                </div>
+                <p class="mb-1 small">Scheduled maintenance tonight from 12 AM to 2 AM.</p>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h6 class="mb-1">Reported Auction</h6>
+                  <small class="text-muted">1 day ago</small>
+                </div>
+                <p class="mb-1 small">Auction #1204 has been reported for review.</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">Admin Quick Links</h5>
+          </div>
+          <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+              <a routerLink="/auction-list" class="list-group-item list-group-item-action">
+                <i class="bi bi-list-check me-2"></i> Manage Auctions
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <i class="bi bi-people me-2"></i> User Management
+              </a>
+              <a routerLink="/transaction-history" class="list-group-item list-group-item-action">
+                <i class="bi bi-cash-stack me-2"></i> Financial Reports
+              </a>
+              <a routerLink="/review-list" class="list-group-item list-group-item-action">
+                <i class="bi bi-star me-2"></i> Review Management
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <i class="bi bi-gear me-2"></i> System Settings
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">System Status</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+              <span>Server Load:</span>
+              <span class="fw-bold text-success">Normal (24%)</span>
+            </div>
+            <div class="progress mb-4" style="height: 6px;">
+              <div class="progress-bar bg-success" role="progressbar" style="width: 24%" aria-valuenow="24" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span>Database Status:</span>
+              <span class="fw-bold text-success">Operational</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span>Payment Gateway:</span>
+              <span class="fw-bold text-success">Connected</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span>API Services:</span>
+              <span class="fw-bold text-success">Online</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>Last Backup:</span>
+              <span class="fw-bold">Today, 03:45 AM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

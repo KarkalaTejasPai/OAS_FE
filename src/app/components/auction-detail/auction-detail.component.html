@@ -1,0 +1,359 @@
+<div class="auction-detail d-flex flex-column min-vh-100">
+  <app-header userType="buyer"></app-header>
+
+  <div class="container my-4 flex-grow-1">
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/auction-list">Auctions</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="#">{{ auction.category }}</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ auction.title }}
+        </li>
+      </ol>
+    </nav>
+
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body p-0">
+            <div class="auction-gallery">
+              <div class="main-image-container">
+                <img
+                  [src]="selectedImage"
+                  [alt]="auction.title"
+                  class="main-image"
+                />
+              </div>
+              <div class="thumbnail-container">
+                <div
+                  *ngFor="let image of auction.images"
+                  class="thumbnail"
+                  [class.active]="image === selectedImage"
+                  (click)="selectImage(image)"
+                >
+                  <img [src]="image" [alt]="auction.title" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header bg-white">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  href="#description"
+                  data-bs-toggle="tab"
+                  >Description</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#details" data-bs-toggle="tab"
+                  >Details</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#shipping" data-bs-toggle="tab"
+                  >Shipping</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#bidHistory" data-bs-toggle="tab"
+                  >Bid History</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="description">
+                <h5 class="card-title">Description</h5>
+                <p class="card-text">{{ auction.description }}</p>
+                <div class="mt-4">
+                  <h6>Features:</h6>
+                  <ul>
+                    <li>Authentic 1920s timepiece</li>
+                    <li>Gold-plated case with intricate engravings</li>
+                    <li>Working mechanical movement</li>
+                    <li>Original chain included</li>
+                    <li>Original box included</li>
+                    <li>
+                      Recently serviced and in excellent working condition
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="details">
+                <h5 class="card-title">Item Details</h5>
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <td width="30%"><strong>Condition:</strong></td>
+                      <td>{{ auction.condition }}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Brand:</strong></td>
+                      <td>Elgin</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Year:</strong></td>
+                      <td>Circa 1925</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Material:</strong></td>
+                      <td>Gold-plated brass</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Dimensions:</strong></td>
+                      <td>45mm diameter</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Includes:</strong></td>
+                      <td>Original box, chain, and documentation</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="tab-pane fade" id="shipping">
+                <h5 class="card-title">Shipping Information</h5>
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <td width="30%"><strong>Location:</strong></td>
+                      <td>{{ auction.location }}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Ships To:</strong></td>
+                      <td>{{ auction.shipping }}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Shipping Cost:</strong></td>
+                      <td>${{ auction.shippingCost }}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Delivery:</strong></td>
+                      <td>5-7 business days</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Returns:</strong></td>
+                      <td>
+                        {{
+                          auction.returnsAccepted
+                            ? "Accepted within 14 days"
+                            : "Not accepted"
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="tab-pane fade" id="bidHistory">
+                <h5 class="card-title">
+                  Bid History ({{ auction.bidHistory.length }} bids)
+                </h5>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Bidder</th>
+                        <th>Amount</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let bid of auction.bidHistory">
+                        <td>{{ bid.bidder }}</td>
+                        <td>${{ bid.amount }}</td>
+                        <td>{{ bid.time }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">Seller Information</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="seller-avatar me-3">JS</div>
+              <div>
+                <h6 class="mb-1">{{ auction.seller.name }}</h6>
+                <div class="text-warning mb-1">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-half"></i>
+                  <span class="text-dark ms-1"
+                    >{{ auction.seller.rating }} ({{
+                      auction.seller.reviews
+                    }}
+                    reviews)</span
+                  >
+                </div>
+                <small class="text-muted"
+                  >Member since {{ auction.seller.memberSince }}</small
+                >
+              </div>
+            </div>
+            <hr />
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-outline-primary">Contact Seller</button>
+              <button class="btn btn-outline-secondary">See Other Items</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 sticky-top">
+        <div class="card mb-4 shadow-sm" style="top: 20px; z-index: 100">
+          <div class="card-header bg-white">
+            <h4 class="mb-0">{{ auction.title }}</h4>
+          </div>
+          <div class="card-body">
+            <div class="auction-timer mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">Time Left:</h6>
+                <div class="countdown text-danger fw-bold">
+                  {{ auction.timeLeft }}
+                </div>
+              </div>
+              <div class="progress mt-2" style="height: 6px">
+                <div
+                  class="progress-bar bg-danger"
+                  role="progressbar"
+                  style="width: 25%"
+                ></div>
+              </div>
+            </div>
+
+            <div class="bid-info mb-4">
+              <div class="row gy-2">
+                <div class="col-6">
+                  <span class="text-muted small">Current Bid:</span>
+                  <div class="fw-bold fs-4">${{ auction.currentBid }}</div>
+                </div>
+                <div class="col-6">
+                  <span class="text-muted small">Bids:</span>
+                  <div class="fw-bold fs-5">{{ auction.bids }}</div>
+                </div>
+                <div class="col-12">
+                  <span class="text-muted small"
+                    >Starting Bid: ${{ auction.startingBid }}</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <form class="bid-form mb-4">
+              <label for="bidAmount" class="form-label fw-bold"
+                >Place Your Bid</label
+              >
+              <div class="input-group mb-3">
+                <span class="input-group-text">$</span>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="bidAmount"
+                  [value]="auction.currentBid + auction.incrementAmount"
+                  min="auction.currentBid + auction.incrementAmount"
+                />
+                <button class="btn btn-primary" type="button">Bid Now</button>
+              </div>
+              <div class="text-muted small">
+                Enter ${{ auction.currentBid + auction.incrementAmount }} or
+                more
+              </div>
+            </form>
+
+            <div class="d-grid gap-2">
+              <button class="btn btn-accent" routerLink="/payment">
+                <i class="bi bi-lightning-fill me-1"></i> Buy Now: ${{
+                  auction.currentBid * 1.2
+                }}
+              </button>
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-heart me-1"></i> Add to Watchlist ({{
+                  auction.watchers
+                }})
+              </button>
+              <button
+                class="btn btn-outline-secondary"
+                routerLink="/submit-review"
+              >
+                <i class="bi bi-flag me-1"></i> Report Item
+              </button>
+            </div>
+          </div>
+          <div class="card-footer bg-white">
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-sm btn-outline-primary w-100 me-2">
+                <i class="bi bi-share me-1"></i> Share
+              </button>
+              <button class="btn btn-sm btn-outline-primary w-100">
+                <i class="bi bi-printer me-1"></i> Print
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">Similar Items</h5>
+          </div>
+          <div class="card-body p-3">
+            <div class="similar-item d-flex mb-3">
+              <img
+                src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt="Similar Item"
+                class="similar-item-image"
+              />
+              <div class="ms-3">
+                <h6 class="mb-1">Silver Pocket Watch</h6>
+                <div class="text-primary fw-bold">$320</div>
+                <small class="text-danger">2d 8h left</small>
+              </div>
+            </div>
+            <div class="similar-item d-flex mb-3">
+              <img
+                src="https://images.pexels.com/photos/2783873/pexels-photo-2783873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt="Similar Item"
+                class="similar-item-image"
+              />
+              <div class="ms-3">
+                <h6 class="mb-1">Antique Wristwatch</h6>
+                <div class="text-primary fw-bold">$580</div>
+                <small class="text-danger">1d 4h left</small>
+              </div>
+            </div>
+            <div class="similar-item d-flex">
+              <img
+                src="https://images.pexels.com/photos/691640/pexels-photo-691640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt="Similar Item"
+                class="similar-item-image"
+              />
+              <div class="ms-3">
+                <h6 class="mb-1">Luxury Watch Collection</h6>
+                <div class="text-primary fw-bold">$1,200</div>
+                <small class="text-danger">5h 20m left</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

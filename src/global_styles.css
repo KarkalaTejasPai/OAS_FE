@@ -1,0 +1,118 @@
+/* Global styles for Online Auction System */
+
+:root {
+  --primary: #0d6efd;
+  --secondary: #6c757d;
+  --success: #198754;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --info: #0dcaf0;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --accent-gold: #ffc107;
+  --accent-light-gold: #ffe082;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f5f7;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-accent {
+  background-color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: #212529;
+}
+
+.btn-accent:hover {
+  background-color: #e6a800;
+  border-color: #daa000;
+  color: #212529;
+}
+
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.auction-card {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.auction-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.badge-accent {
+  background-color: var(--accent-gold);
+  color: #212529;
+}
+
+.review-stars {
+  color: var(--accent-gold);
+}
+
+.main-content {
+  min-height: calc(100vh - 56px - 60px);
+  padding: 2rem 0;
+}
+
+.footer {
+  height: 60px;
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

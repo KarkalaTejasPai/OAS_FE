@@ -1,0 +1,112 @@
+<div class="user-register-page">
+  <div class="container">
+    <div class="row min-vh-100 justify-content-center align-items-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5 slide-up">
+          <div class="card-header bg-primary text-white text-center py-4">
+            <h3 class="mb-0">User Registration</h3>
+          </div>
+          <div class="card-body p-4">
+            <form>
+              <div class="row mb-3">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    placeholder="John"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    placeholder="Doe"
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="name@example.com"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phone"
+                  placeholder="(123) 456-7890"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Create a strong password"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="confirmPassword" class="form-label"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirmPassword"
+                  placeholder="Confirm your password"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="role" class="form-label">Register as</label>
+                <select class="form-select" id="role">
+                  <option selected disabled>Select your role</option>
+                  <option value="buyer">Buyer</option>
+                  <option value="seller">Seller</option>
+                </select>
+              </div>
+              <div class="form-check mb-4">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="termsAgreement"
+                />
+                <label class="form-check-label" for="termsAgreement">
+                  I agree to the
+                  <a href="#" class="text-decoration-none">Terms of Service</a>
+                  and
+                  <a href="#" class="text-decoration-none">Privacy Policy</a>
+                </label>
+              </div>
+              <div class="d-grid">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  routerLink="/buyer-dashboard"
+                >
+                  Create Account
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer text-center py-3">
+            <p class="mb-0">
+              Already have an account?
+              <a routerLink="/" class="text-decoration-none">Sign in</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>
