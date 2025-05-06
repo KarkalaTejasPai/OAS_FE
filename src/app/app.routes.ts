@@ -9,6 +9,7 @@ import { AdminDashboardComponent } from "./components/admin-dashboard/admin-dash
 import { AuctionListComponent } from "./components/auction-list/auction-list.component";
 import { AuctionDetailComponent } from "./components/auction-detail/auction-detail.component";
 import { HomeComponent } from "./components/home/home.component";
+import { SellProductComponent } from "./sell-product/sell-product.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: "admin-dashboard", component: AdminDashboardComponent },
   { path: "auction-list", component: AuctionListComponent },
   { path: "auction-detail", component: AuctionDetailComponent },
+  { path: "sell-product", component: SellProductComponent},
   { path: "", component: HomeComponent }
   // { path: 'create-auction', component: CreateAuctionComponent },
   // { path: 'payment', component: PaymentComponent },
