@@ -158,7 +158,9 @@
                 </div>
               </div>
               <div class="card-footer bg-white d-grid">
-                <button class="btn btn-primary" routerLink="/auction-detail">View Details</button>
+                <button class="btn btn-primary" [routerLink]="['/auction-detail', auction.productID]">
+                  View Details
+                </button>
               </div>
             </div>
           </div>
@@ -250,18 +252,22 @@
                 </div>
               </div>
               <div class="card-footer bg-white d-grid">
-                <button class="btn btn-primary" [routerLink]="['/auction-detail', product.productID]">
+                <!-- Show this button for logged in users -->
+                <button class="btn btn-primary" 
+                        *ngIf="isLoggedIn()"
+                        routerLink="/auction-detail">
                   View Details
+                </button>
+
+                <!-- Show this button for non-logged in users -->
+                <button class="btn btn-secondary" 
+                        *ngIf="!isLoggedIn()"
+                        (click)="redirectToLogin()">
+                  Login to View Details
                 </button>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Show message if no products -->
-        <div *ngIf="auctions.length === 0" class="text-center py-5">
-          <h4>No products available</h4>
-          <p class="text-muted">Check back later for new items</p>
         </div>
       </div>
     </div>

@@ -56,3 +56,22 @@
   background-color: var(--primary);
   border-color: var(--primary);
 }
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+}

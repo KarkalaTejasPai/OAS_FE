@@ -121,4 +121,9 @@ export class AuthService {
       return true;
     }
   }
+
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('token');
+    return !!token;
+  }
 }

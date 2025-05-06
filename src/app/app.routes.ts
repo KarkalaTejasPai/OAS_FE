@@ -10,6 +10,7 @@ import { AuctionListComponent } from "./components/auction-list/auction-list.com
 import { AuctionDetailComponent } from "./components/auction-detail/auction-detail.component";
 import { HomeComponent } from "./components/home/home.component";
 import { SellProductComponent } from "./sell-product/sell-product.component";
+import { authGuard } from "./guards/auth.guard";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -19,7 +20,21 @@ export const routes: Routes = [
   { path: "admin-dashboard", component: AdminDashboardComponent },
   { path: "auction-list", component: AuctionListComponent },
   { path: "auction-detail", component: AuctionDetailComponent },
-  { path: "sell-product", component: SellProductComponent},
+  {
+    path: "auction-detail",
+    component: AuctionDetailComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: "auction-detail",
+    component: AuctionDetailComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: "sell-product",
+    component: SellProductComponent,
+    canActivate: [authGuard]
+  },
   { path: "", component: HomeComponent }
   // { path: 'create-auction', component: CreateAuctionComponent },
   // { path: 'payment', component: PaymentComponent },
