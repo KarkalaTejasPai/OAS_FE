@@ -1,8 +1,9 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 .user-register-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #baceed 0%, #1b545f 100%);
   padding-top: 2rem;
 }
 
@@ -14,5 +15,29 @@
 .form-control:focus,
 .form-select:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 0.25rem, #35576b;
 }
+.card-header {
+  background-color: #35576b !important;
+  color: white; /* Ensures text remains readable */
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px 8px 0 0; /* Soft rounded corners */
+}
+.btn-primary {
+  background-color: #35576b !important;
+  color: white; /* Ensures text remains readable */
+  border: none;
+  padding: 12px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+ 
+
+ 
