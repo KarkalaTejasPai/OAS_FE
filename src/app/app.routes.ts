@@ -9,7 +9,7 @@ import { AdminDashboardComponent } from "./components/admin-dashboard/admin-dash
 import { AuctionListComponent } from "./components/auction-list/auction-list.component";
 import { AuctionDetailComponent } from "./components/auction-detail/auction-detail.component";
 import { HomeComponent } from "./components/home/home.component";
-import { SellProductComponent } from "./sell-product/sell-product.component";
+import { SellProductComponent } from "./components/sell-product/sell-product.component";
 import { authGuard } from "./guards/auth.guard";
 
 export const routes: Routes = [
@@ -19,12 +19,6 @@ export const routes: Routes = [
   { path: "seller-dashboard", component: SellerDashboardComponent },
   { path: "admin-dashboard", component: AdminDashboardComponent },
   { path: "auction-list", component: AuctionListComponent },
-  { path: "auction-detail", component: AuctionDetailComponent },
-  {
-    path: "auction-detail",
-    component: AuctionDetailComponent,
-    canActivate: [authGuard]
-  },
   {
     path: "auction-detail",
     component: AuctionDetailComponent,
