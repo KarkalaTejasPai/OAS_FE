@@ -11,6 +11,7 @@ import { AuctionDetailComponent } from "./components/auction-detail/auction-deta
 import { HomeComponent } from "./components/home/home.component";
 import { SellProductComponent } from "./components/sell-product/sell-product.component";
 import { authGuard } from "./guards/auth.guard";
+// import { MyProfileComponent } from "./components/my-profile/my-profile.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -29,6 +30,10 @@ export const routes: Routes = [
     component: SellProductComponent,
     canActivate: [authGuard]
   },
+  // {
+  //   path:"myprofile",
+  //   component: MyProfileComponent
+  // },
   { path: "", component: HomeComponent }
   // { path: 'create-auction', component: CreateAuctionComponent },
   // { path: 'payment', component: PaymentComponent },

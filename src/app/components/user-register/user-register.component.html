@@ -54,7 +54,7 @@
                   [(ngModel)]="phone"
                   required
                   #phoneInput="ngModel"
-                  placeholder="(123) 456-7890"
+                  placeholder="Enter your phone number"
                 />
                 <div *ngIf="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="text-danger">
                   <small *ngIf="phoneInput.errors?.['required']">Phone number is required</small>
