@@ -67,7 +67,11 @@
     </div>
   </div>
 </nav> -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+
+
+
+
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">OAS</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,13 +93,11 @@
         </li>
       </ul>
       
-      <!-- Search Form -->
       <form class="d-flex me-3">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
 
-      <!-- Auth Buttons -->
       <div class="d-flex">
         <ng-container *ngIf="!isLoggedIn()">
           <button class="btn btn-primary me-2" routerLink="/login">Login</button>
@@ -115,6 +117,86 @@
             </ul>
           </div>
         </ng-container>
+      </div>
+    </div>
+  </div>
+</nav> -->
+
+
+
+<nav class="navbar navbar-expand-lg navbar-dark header">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">Auction Pro</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Main Navigation Links -->
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/app-auctions" routerLinkActive="active">Auction</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/app-product" routerLinkActive="active">Explore</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/app-sell-products" routerLinkActive="active">Sell Product</a>
+        </li>
+      </ul>
+
+      <!-- Search Form -->
+      <!-- <form class="d-flex me-3">
+        <div class="input-group">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </form> -->
+
+      <!-- Auth Buttons -->
+      <div class="navbar-nav">
+        <ng-container *ngIf="!isLoggedIn(); else profileDropdown">
+          <a class="nav-link btn btn-outline-light me-2" routerLink="/login">Login</a>
+          <a class="nav-link btn btn-light" routerLink="/register">Sign Up</a>
+        </ng-container>
+        
+        <ng-template #profileDropdown>
+          <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" 
+               href="#" 
+               id="profileDropdown" 
+               role="button" 
+               data-bs-toggle="dropdown" 
+               aria-expanded="false">
+              <i class="bi bi-person-circle me-1"></i>
+              Profile
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item" routerLink="/profile">
+                <i class="bi bi-person me-2"></i>My Profile
+              </a></li>
+              <li><a class="dropdown-item" routerLink="/my-bids">
+                <i class="bi bi-list-check me-2"></i>My Bids
+              </a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" (click)="logout()">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+              </a></li>
+            </ul>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
