@@ -48,7 +48,7 @@ export class LoginComponent {
             localStorage.setItem('token', response.token);
             
             // Safely handle the role
-            const userRole = response.role || 'user'; // Default to 'user' if role is undefined
+            const userRole = response.role || 'User'; // Default to 'user' if role is undefined
             localStorage.setItem('userRole', userRole);
             localStorage.setItem('isLoggedIn', 'true');
 
