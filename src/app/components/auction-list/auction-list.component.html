@@ -238,6 +238,20 @@
         <div class="row g-4">
           <div class="col-md-6 col-lg-4" *ngFor="let product of auctions">
             <div class="card h-100 auction-card">
+              <!-- Add image display -->
+              <div class="card-img-top" style="height: 200px; overflow: hidden;">
+                <img *ngIf="product.displayImage" 
+                     [src]="product.displayImage" 
+                     [alt]="product.title"
+                     class="img-fluid w-100 h-100"
+                     style="object-fit: cover;">
+                <div *ngIf="!product.displayImage" 
+                     class="d-flex justify-content-center align-items-center h-100 bg-light">
+                  <span class="text-muted">Loading image...</span>
+                </div>
+              </div>
+
+              <!-- Existing card content -->
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                   <h5 class="card-title mb-0">{{product.title}}</h5>

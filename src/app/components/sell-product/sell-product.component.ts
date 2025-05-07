@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../Services/auth.service';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -16,6 +16,13 @@ interface Product {
   startPrice: number;
   category: string;
   status: string;
+}
+
+// Update the ProductResponse interface to match the actual API response
+interface ProductResponse {
+  productId: number;  // Changed from productID to match API response
+  success: boolean;
+  message: string;
 }
 
 @Component({
@@ -69,16 +76,32 @@ export class SellProductComponent implements OnInit {
       return;
     }
 
-    this.http.post<any>('https://localhost:44385/api/Product', this.product)
+    this.http.post<ProductResponse>('https://localhost:44385/api/Product', this.product)
       .subscribe({
         next: (response) => {
-          console.log('Product created:', response);
-          alert('Product has been added to auction successfully!');
-          this.resetForm();
+          // Only log necessary information
+          console.log('Product created successfully');
+          
+          if (response && response.productId) {
+            // Store product ID securely
+            localStorage.setItem('currentProductId', response.productId.toString());
+            
+            // Show success message without sensitive data
+            this.successMessage = 'Product listed successfully!';
+            
+            // Navigate to upload-image
+            this.router.navigate(['/upload-image'])
+              .then(() => console.log('Redirecting to image upload'))
+              .catch(err => console.error('Navigation failed'));
+          } else {
+            this.errorMessage = 'Failed to create product';
+            console.error('Invalid response format');
+          }
         },
         error: (error) => {
-          console.error('Error creating product:', error);
-          alert('Failed to add product. Please check the API endpoint and try again.');
+          this.errorMessage = 'Failed to list product. Please try again.';
+          console.error('Error occurred during product creation');
+          alert(this.errorMessage);
         }
       });
   }

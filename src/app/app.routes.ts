@@ -10,6 +10,7 @@ import { AuctionDetailComponent } from "./components/auction-detail/auction-deta
 import { HomeComponent } from "./components/home/home.component";
 import { SellProductComponent } from "./components/sell-product/sell-product.component";
 import { authGuard } from "./guards/auth.guard";
+import { UploadImageComponent } from "../app/upload-image/upload-image.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -27,6 +28,10 @@ export const routes: Routes = [
     path: "sell-product",
     component: SellProductComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: "upload-image",
+    component: UploadImageComponent
   },
   { path: "", component: HomeComponent },
 

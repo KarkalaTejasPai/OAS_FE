@@ -1,0 +1,49 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>Upload Product Images (Minimum 5 required)</h4>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="fileInput" class="form-label">Choose Images</label>
+                <input 
+                    type="file" 
+                    class="form-control" 
+                    id="fileInput" 
+                    (change)="onFileSelected($event)"
+                    accept="image/*"
+                    multiple>
+                <small class="text-muted">Maximum file size: 5MB per image</small>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress mb-3" *ngIf="isUploading">
+                <div class="progress-bar" 
+                     role="progressbar" 
+                     [style.width.%]="uploadProgress"
+                     [attr.aria-valuenow]="uploadProgress" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                    {{uploadProgress}}%
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button 
+                    class="btn btn-primary me-2" 
+                    (click)="uploadImages()"
+                    [disabled]="!selectedFiles || isUploading">
+                    Upload Images
+                </button>
+            </div>
+
+            <!-- Message Display -->
+            <div *ngIf="message" 
+                 class="alert" 
+                 [ngClass]="{'alert-success': message.includes('success'), 
+                            'alert-danger': !message.includes('success')}">
+                {{ message }}
+            </div>
+        </div>
+    </div>
+</div>

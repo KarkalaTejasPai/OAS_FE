@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { CommonModule } from '@angular/common';
-
+ 
 @Component({
   selector: 'app-auction-detail',
   standalone: true,
@@ -49,9 +49,9 @@ export class AuctionDetailComponent {
       { bidder: 'collectibles22', amount: 350, time: '12 hours ago' }
     ]
   };
-
+ 
   selectedImage = this.auction.images[0];
-
+ 
   selectImage(image: string) {
     this.selectedImage = image;
   }
