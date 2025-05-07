@@ -9,7 +9,7 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
  
 interface Product {
-  productID: number;
+  productId: number;
   sellerID: number;
   title: string;
   description: string;
@@ -20,7 +20,7 @@ interface Product {
  
 // Update the ProductResponse interface to match the actual API response
 interface ProductResponse {
-  productID: number;  // Changed back to productID to match API response
+  productId: number;  // Changed back to productID to match API response
   sellerID: number;
   title: string;
   description: string;
@@ -39,7 +39,7 @@ interface ProductResponse {
 })
 export class SellProductComponent implements OnInit {
   product: Product = {
-    productID: 0,
+    productId: 0,
     sellerID: 0,
     title: '',
     description: '',
@@ -85,9 +85,9 @@ export class SellProductComponent implements OnInit {
         next: (response) => {
           console.log('API Response:', response); // Debug log
          
-          if (response && response.productID) { // Changed from productId to productID
+          if (response && response.productId) { // Changed from productId to productID
             // Store product ID securely
-            localStorage.setItem('currentProductId', response.productID.toString());
+            localStorage.setItem('currentProductId', response.productId.toString());
            
             // Show success message
             this.successMessage = 'Product listed successfully!';
@@ -141,7 +141,7 @@ export class SellProductComponent implements OnInit {
   private resetForm(): void {
     const currentSellerId = this.product.sellerID;
     this.product = {
-      productID: 0,
+      productId: 0,
       sellerID: currentSellerId,
       title: '',
       description: '',
