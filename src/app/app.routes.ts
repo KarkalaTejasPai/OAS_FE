@@ -11,6 +11,7 @@ import { HomeComponent } from "./components/home/home.component";
 import { SellProductComponent } from "./components/sell-product/sell-product.component";
 import { authGuard } from "./guards/auth.guard";
 import { UploadImageComponent } from "../app/upload-image/upload-image.component";
+import { ReviewComponent } from "./components/review/review.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: "seller-dashboard", component: SellerDashboardComponent },
   { path: "admin-dashboard", component: AdminDashboardComponent },
   { path: "auction-list", component: AuctionListComponent },
+  { path: "review", component: ReviewComponent },
   {
     path: "auction-detail",
     component: AuctionDetailComponent,

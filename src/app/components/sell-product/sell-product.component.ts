@@ -74,50 +74,36 @@ export class SellProductComponent implements OnInit {
   onSubmit(): void {
     this.errorMessage = '';
     this.successMessage = '';
-
+ 
     if (!this.validateForm()) {
       alert(this.errorMessage);
       return;
     }
-
-    console.log('Sending product data:', this.product); // Debug log
-
-    this.http.post('https://localhost:44385/api/Product', this.product)
+ 
+    this.http.post<ProductResponse>('https://localhost:44385/api/Product', this.product)
       .subscribe({
-        next: (response: any) => {
-          console.log('Raw API Response:', response);
-          console.log('Response type:', typeof response);
-          console.log('Response structure:', JSON.stringify(response, null, 2));
-
-          if (response) {
-            // Store the product ID (assuming it's in the response)
-            const productId = response.productID || response.ProductId || response.productId;
-            
-            if (productId) {
-              localStorage.setItem('currentProductId', productId.toString());
-              this.successMessage = 'Product listed successfully!';
-              
-              // Add a small delay before navigation
-              setTimeout(() => {
-                this.router.navigate(['/upload-image'])
-                  .then(() => console.log('Navigation successful'))
-                  .catch(err => {
-                    console.error('Navigation failed:', err);
-                    this.errorMessage = 'Navigation to upload page failed';
-                  });
-              }, 100);
-            } else {
-              this.errorMessage = 'Product ID not found in response';
-              console.error('Response missing product ID:', response);
-            }
+        next: (response) => {
+          console.log('API Response:', response); // Debug log
+         
+          if (response && response.productID) { // Changed from productId to productID
+            // Store product ID securely
+            localStorage.setItem('currentProductId', response.productID.toString());
+           
+            // Show success message
+            this.successMessage = 'Product listed successfully!';
+           
+            // Navigate to upload-image
+            this.router.navigate(['/upload-image'])
+              .then(() => console.log('Redirecting to image upload'))
+              .catch(err => console.error('Navigation failed:', err));
           } else {
-            this.errorMessage = 'Invalid response from server';
-            console.error('Invalid response:', response);
+            this.errorMessage = 'Failed to create product: Invalid response format';
+            console.error('Invalid response format:', response);
           }
         },
         error: (error) => {
-          console.error('Full error object:', error);
-          this.errorMessage = error.message || 'Failed to list product. Please try again.';
+          this.errorMessage = 'Failed to list product. Please try again.';
+          console.error('Error occurred during product creation:', error);
           alert(this.errorMessage);
         }
       });
