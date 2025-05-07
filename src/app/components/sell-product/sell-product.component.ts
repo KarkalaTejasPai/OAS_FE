@@ -20,7 +20,7 @@ interface Product {
  
 // Update the ProductResponse interface to match the actual API response
 interface ProductResponse {
-  productId: number;  // Changed back to productID to match API response
+  productID: number;  // Changed to match API response format (uppercase ID)
   sellerID: number;
   title: string;
   description: string;
@@ -83,23 +83,7 @@ export class SellProductComponent implements OnInit {
     this.http.post<ProductResponse>('https://localhost:44385/api/Product', this.product)
       .subscribe({
         next: (response) => {
-          console.log('API Response:', response); // Debug log
-         
-          if (response && response.productId) { // Changed from productId to productID
-            // Store product ID securely
-            localStorage.setItem('currentProductId', response.productId.toString());
-           
-            // Show success message
-            this.successMessage = 'Product listed successfully!';
-           
-            // Navigate to upload-image
-            this.router.navigate(['/upload-image'])
-              .then(() => console.log('Redirecting to image upload'))
-              .catch(err => console.error('Navigation failed:', err));
-          } else {
-            this.errorMessage = 'Failed to create product: Invalid response format';
-            console.error('Invalid response format:', response);
-          }
+          this.processResponse(response);
         },
         error: (error) => {
           this.errorMessage = 'Failed to list product. Please try again.';
@@ -107,6 +91,27 @@ export class SellProductComponent implements OnInit {
           alert(this.errorMessage);
         }
       });
+  }
+
+  processResponse(response: any) {
+    console.log('Received response:', response);
+    
+    // Check for both camelCase and PascalCase variations
+    const productId = response?.productId || response?.productID;
+    
+    if (productId === undefined || typeof productId !== 'number') {
+      console.error('Invalid response format:', response);
+      this.errorMessage = 'Invalid response format received from server';
+      alert('An error occurred while processing the response. Please try again.');
+      return;
+    }
+
+    console.log('Valid product ID:', productId);
+    localStorage.setItem('currentProductId', productId.toString());
+    this.successMessage = 'Product listed successfully!';
+    this.router.navigate(['/upload-image'])
+      .then(() => console.log('Redirecting to image upload'))
+      .catch(err => console.error('Navigation failed:', err));
   }
  
   private validateForm(): boolean {
