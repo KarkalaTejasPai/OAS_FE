@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
-
+ 
 interface Product {
   productID: number;
   sellerID: number;
@@ -17,14 +17,18 @@ interface Product {
   category: string;
   status: string;
 }
-
+ 
 // Update the ProductResponse interface to match the actual API response
 interface ProductResponse {
-  productId: number;  // Changed from productID to match API response
-  success: boolean;
-  message: string;
+  productID: number;  // Changed back to productID to match API response
+  sellerID: number;
+  title: string;
+  description: string;
+  startPrice: number;
+  category: string;
+  status: string;
 }
-
+ 
 @Component({
   selector: 'app-sell-product',
   standalone: true,
@@ -43,22 +47,22 @@ export class SellProductComponent implements OnInit {
     category: '',
     status: 'Available'
   };
-
+ 
   errorMessage: string = '';
   successMessage: string = '';
-
+ 
   constructor(
     private http: HttpClient,
     private router: Router,
     private authService: AuthService
   ) {}
-
+ 
   ngOnInit(): void {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
       return;
     }
-
+ 
     const userId = this.authService.getUserId();
     if (userId) {
       this.product.sellerID = Number(userId);
@@ -66,75 +70,74 @@ export class SellProductComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-
+ 
   onSubmit(): void {
     this.errorMessage = '';
     this.successMessage = '';
-
+ 
     if (!this.validateForm()) {
       alert(this.errorMessage);
       return;
     }
-
+ 
     this.http.post<ProductResponse>('https://localhost:44385/api/Product', this.product)
       .subscribe({
         next: (response) => {
-          // Only log necessary information
-          console.log('Product created successfully');
-          
-          if (response && response.productId) {
+          console.log('API Response:', response); // Debug log
+         
+          if (response && response.productID) { // Changed from productId to productID
             // Store product ID securely
-            localStorage.setItem('currentProductId', response.productId.toString());
-            
-            // Show success message without sensitive data
+            localStorage.setItem('currentProductId', response.productID.toString());
+           
+            // Show success message
             this.successMessage = 'Product listed successfully!';
-            
+           
             // Navigate to upload-image
             this.router.navigate(['/upload-image'])
               .then(() => console.log('Redirecting to image upload'))
-              .catch(err => console.error('Navigation failed'));
+              .catch(err => console.error('Navigation failed:', err));
           } else {
-            this.errorMessage = 'Failed to create product';
-            console.error('Invalid response format');
+            this.errorMessage = 'Failed to create product: Invalid response format';
+            console.error('Invalid response format:', response);
           }
         },
         error: (error) => {
           this.errorMessage = 'Failed to list product. Please try again.';
-          console.error('Error occurred during product creation');
+          console.error('Error occurred during product creation:', error);
           alert(this.errorMessage);
         }
       });
   }
-
+ 
   private validateForm(): boolean {
     if (this.product.sellerID === 0) {
       this.errorMessage = 'Please log in to sell products';
       return false;
     }
-
+ 
     if (!this.product.title.trim()) {
       this.errorMessage = 'Product title is required';
       return false;
     }
-
+ 
     if (!this.product.description.trim()) {
       this.errorMessage = 'Product description is required';
       return false;
     }
-
+ 
     if (this.product.startPrice <= 0) {
       this.errorMessage = 'Starting price must be greater than 0';
       return false;
     }
-
+ 
     if (!this.product.category) {
       this.errorMessage = 'Please select a category';
       return false;
     }
-
+ 
     return true;
   }
-
+ 
   private resetForm(): void {
     const currentSellerId = this.product.sellerID;
     this.product = {
