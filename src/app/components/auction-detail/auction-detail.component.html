@@ -89,24 +89,68 @@
 
       <!-- Bidding Section -->
       <div class="col-lg-4">
-        <div class="card sticky-top shadow-sm" style="top: 20px">
+        <div class="card mb-4 shadow-sm" style="top: 20px; z-index: 100">
           <div class="card-header bg-white">
             <h4 class="mb-0">{{auction.title}}</h4>
           </div>
           <div class="card-body">
-            <div class="mb-4">
-              <h4 class="text-primary">₹{{auction.startPrice}}</h4>
+            <div class="auction-timer mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">Time Left:</h6>
+                <div class="countdown text-danger fw-bold">
+                  {{auction.timeLeft}}
+                </div>
+              </div>
+              <div class="progress mt-2" style="height: 6px">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 25%"></div>
+              </div>
             </div>
-            
+
+            <div class="bid-info mb-4">
+              <div class="row gy-2">
+                <div class="col-6">
+                  <span class="text-muted small">Current Bid:</span>
+                  <div class="fw-bold fs-4">₹{{auction.currentBid}}</div>
+                </div>
+                <div class="col-6">
+                  <span class="text-muted small">Bids:</span>
+                  <div class="fw-bold fs-5">{{auction.bids}}</div>
+                </div>
+                <div class="col-12">
+                  <span class="text-muted small">Starting Bid: ₹{{auction.startingBid}}</span>
+                </div>
+              </div>
+            </div>
+
+            <form class="bid-form mb-4">
+              <label for="bidAmount" class="form-label fw-bold">Place Your Bid</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text">₹</span>
+                <input type="number" 
+                       class="form-control" 
+                       id="bidAmount"
+                       [value]="auction.currentBid + auction.incrementAmount"
+                       min="auction.currentBid + auction.incrementAmount">
+                <button class="btn btn-primary" type="button">Bid Now</button>
+              </div>
+              <div class="text-muted small">
+                Enter ₹{{auction.currentBid + auction.incrementAmount}} or more
+              </div>
+            </form>
+
             <div class="d-grid gap-2">
-              <button class="btn btn-primary btn-lg" 
-                      [disabled]="auction.status !== 'Active'">
-                Place Bid
+              <button class="btn btn-accent" routerLink="/payment">
+                <i class="bi bi-lightning-fill me-1"></i> 
+                Buy Now: ₹{{auction.currentBid * 1.2}}
               </button>
-              <button class="btn btn-outline-primary">
-                <i class="bi bi-heart"></i> Add to Watchlist
+             
+              <button class="btn btn-outline-secondary" routerLink="/review">
+                <i class="bi bi-flag me-1"></i> Review
               </button>
             </div>
+          </div>
+          <div class="card-footer bg-white">
+            
           </div>
         </div>
       </div>
