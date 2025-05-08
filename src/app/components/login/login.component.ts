@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService, LoginResponse } from '../Services/auth.service';
+import { AuthService, LoginResponse } from '../../Services/auth.service';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 
 @Component({

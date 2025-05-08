@@ -24,7 +24,7 @@ export const routes: Routes = [
   { path: "review", component: ReviewComponent },
   { path: "reviewlist", component: ReviewListComponent },
   {
-    path: "auction-detail",
+    path: 'auction-detail/:id',
     component: AuctionDetailComponent,
     canActivate: [authGuard]
   },

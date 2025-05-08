@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from "../shared/header/header.component";
 import { FooterComponent } from "../shared/footer/footer.component";
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../Services/auth.service';
+import { AuthService } from '../../Services/auth.service';
 
 // Update the interface to match API format
 interface ReviewRequest {

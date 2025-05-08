@@ -92,7 +92,7 @@
                 <!-- Show this button for logged in users -->
                 <button class="btn btn-primary"
                         *ngIf="isLoggedIn()"
-                        routerLink="/auction-detail">
+                        [routerLink]="['/auction-detail', product.productID]">
                   View Details
                 </button>
  
