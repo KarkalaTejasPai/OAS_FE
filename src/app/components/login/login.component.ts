@@ -52,8 +52,12 @@ export class LoginComponent {
             // Redirect based on role
             if (role  === 'User') {
               this.router.navigate(['/']);
-            } else {
+            } else if(role === 'Admin') {
               this.router.navigate(['/admin-dashboard']);
+            }
+            else{
+              console.log('Invalid role:', role);
+              this.loginError = 'Invalid role';
             }
           }
         },
