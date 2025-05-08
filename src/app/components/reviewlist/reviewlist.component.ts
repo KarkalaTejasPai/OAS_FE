@@ -5,12 +5,12 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 
 interface Review {
-  reviewId: number;
-  reviewerId: number;
-  targetUserId: number;
+  reviewID: number;
+  userID: number;
+  targetUserID: number;
   rating: number;
   comment: string;
-  date: Date;
+  date: string;
 }
 
 @Component({
@@ -35,6 +35,8 @@ export class ReviewListComponent implements OnInit {
 
   ngOnInit(): void {
     const loggedInUserId = localStorage.getItem('userId');
+    console.log('Retrieved userId from localStorage:', loggedInUserId); // Debug log
+    
     if (loggedInUserId) {
       this.userId = Number(loggedInUserId);
       this.fetchReviews();
@@ -44,11 +46,13 @@ export class ReviewListComponent implements OnInit {
   }
 
   private fetchReviews(): void {
+    console.log('Fetching reviews for userId:', this.userId); // Debug log
+    
     this.http.get<Review[]>(`https://localhost:44385/api/Review/users/${this.userId}`)
       .subscribe({
         next: (response) => {
           this.reviews = response;
-          console.log('Reviews loaded:', this.reviews);
+          console.log('Reviews loaded:', this.reviews); // Debug log to see the data
         },
         error: (error) => {
           console.error('Error fetching reviews:', error);
