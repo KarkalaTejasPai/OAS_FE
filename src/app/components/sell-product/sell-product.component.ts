@@ -109,7 +109,7 @@ export class SellProductComponent implements OnInit {
       startDate: new Date().toISOString(), // Assuming current date as start date
       endDate: this.product.endDate,
       currentBid: this.product.startPrice.toString(),
-      status: 'Active'
+      status: 'Available'
     };
 
     this.http.post('https://localhost:44385/api/Auction', auctionData)
