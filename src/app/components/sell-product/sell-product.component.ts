@@ -109,7 +109,7 @@ export class SellProductComponent implements OnInit {
       startDate: new Date().toISOString(), // Assuming current date as start date
       endDate: this.product.endDate,
       currentBid: this.product.startPrice.toString(),
-      status: 'Active'
+      status: 'Available'
     };
 
     this.http.post('https://localhost:44385/api/Auction', auctionData)
@@ -144,7 +144,7 @@ export class SellProductComponent implements OnInit {
   }
 
   updateProductStatus(productId: number): void {
-    this.product.status = 'Inactive';
+    this.product.status = 'Unavailable';
 
     this.http.patch(`https://localhost:44385/api/Product/${productId}`, { status: this.product.status })
       .subscribe({
