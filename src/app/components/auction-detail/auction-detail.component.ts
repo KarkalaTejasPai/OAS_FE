@@ -17,6 +17,12 @@ interface Product {
   status: string;
   mainImage?: SafeUrl;  // Keep this for image handling
   selectedImage?: SafeUrl;  // Add this new property
+  timeLeft: string;
+  currentBid: number;
+  bids: number;
+  startingBid: number;
+  incrementAmount: number;
+  watchers: number;
 }
 
 // Add this type at the top with your other interfaces

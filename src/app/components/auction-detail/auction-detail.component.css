@@ -61,6 +61,8 @@
 
 .sticky-top {
   z-index: 1020;
+  position: sticky;
+  top: 20px;
 }
 
 .no-image-placeholder {
@@ -108,4 +110,44 @@
   .main-image-container {
     height: 300px;
   }
+}
+
+.auction-timer {
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 1rem;
+}
+
+.countdown {
+  font-size: 1.25rem;
+}
+
+.progress {
+  background-color: #f8f9fa;
+}
+
+.bid-info {
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 1rem;
+}
+
+.btn-accent {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #000;
+}
+
+.btn-accent:hover {
+  background-color: #ffca2c;
+  border-color: #ffc720;
+  color: #000;
+}
+
+.card-footer {
+  border-top: 1px solid #dee2e6;
+  padding: 1rem;
+}
+
+.input-group > .form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
