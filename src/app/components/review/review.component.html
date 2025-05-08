@@ -1,5 +1,9 @@
 <app-header></app-header>
 <div class="review-form">
+    <div class="reviewer-info" *ngIf="reviewerId">
+        <p>Submitting review as User ID: {{reviewerId}}</p>
+    </div>
+
     <label>User ID:</label>
     <input type="text" [(ngModel)]="userId" placeholder="Enter your ID" />
   
@@ -15,13 +19,14 @@
     <label>Comment:</label>
     <textarea [(ngModel)]="comment" placeholder="Write your review..."></textarea>
   
-    <button (click)="submitReview()">Submit</button>
-  </div>  
-    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-      {{ errorMessage }}
-    </div>
-  
-    <div *ngIf="successMessage" class="alert alert-success mt-3">
-      {{ successMessage }}
-    </div>
-<app-footer></app-footer> 
+    <button (click)="submitReview()" [disabled]="!reviewerId">Submit</button>
+</div>  
+
+<div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+</div>
+
+<div *ngIf="successMessage" class="alert alert-success mt-3">
+    {{ successMessage }}
+</div>
+<app-footer></app-footer>
