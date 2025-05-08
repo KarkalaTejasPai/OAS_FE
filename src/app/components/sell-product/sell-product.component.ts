@@ -144,7 +144,7 @@ export class SellProductComponent implements OnInit {
   }
 
   updateProductStatus(productId: number): void {
-    this.product.status = 'Inactive';
+    this.product.status = 'Unavailable';
 
     this.http.patch(`https://localhost:44385/api/Product/${productId}`, { status: this.product.status })
       .subscribe({
