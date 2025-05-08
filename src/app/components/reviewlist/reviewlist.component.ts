@@ -38,7 +38,7 @@ export class ReviewListComponent implements OnInit {
   }
 
   private fetchReviews(): void {
-    this.http.get<Review[]>(`https://localhost:44385/api/Review/user/${this.userId}`)
+    this.http.get<Review[]>(`https://localhost:44385/api/Review/users/${this.userId}`)
       .subscribe({
         next: (response) => {
           this.reviews = response;
