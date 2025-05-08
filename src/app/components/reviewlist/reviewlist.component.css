@@ -71,3 +71,11 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+.back-button {
+  margin-right: 1rem;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
+}

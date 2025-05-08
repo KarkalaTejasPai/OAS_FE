@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from "../shared/header/header.component";
 import { FooterComponent } from "../shared/footer/footer.component";
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../Services/auth.service';
+import { Location } from '@angular/common';
 
 // Update the interface to match API format
 interface ReviewRequest {
@@ -21,10 +22,13 @@ interface ReviewRequest {
   standalone: true,
   imports: [FormsModule, CommonModule, HeaderComponent, FooterComponent],
   templateUrl: './review.component.html',
-  styleUrl: './review.component.css'
+  styleUrls: [
+    './review.component.css',
+    '../../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css'
+  ]
 })
 
-export class ReviewComponent {
+export class ReviewComponent implements OnInit {
   userId: number = 0;
   reviewerId: number = 0; 
   rating: number = 0;
@@ -35,7 +39,8 @@ export class ReviewComponent {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private location: Location
   ) {}
   
   ngOnInit(): void {
@@ -126,5 +131,9 @@ export class ReviewComponent {
     this.userId = 0;
     this.rating = 0;
     this.comment = '';
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
