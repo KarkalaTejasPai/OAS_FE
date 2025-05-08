@@ -6,8 +6,8 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../Services/auth.service';
-import { ImageService } from '../Services/image.service';
+import { AuthService } from '../../Services/auth.service';
+import { ImageService } from '../../Services/image.service';
 import { SafeUrl } from '@angular/platform-browser';
  
 interface Product {
@@ -42,7 +42,7 @@ export class AuctionListComponent implements OnInit, OnDestroy {
   private apiUrl = 'https://localhost:44385/api/Product';
   minPrice: number | null = null;
   maxPrice: number | null = null;
-
+ 
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -88,12 +88,12 @@ export class AuctionListComponent implements OnInit, OnDestroy {
     this.filteredAuctions = this.auctions.filter(product => {
       let matchesCategory = true;
       let matchesPrice = true;
-
+ 
       // Category filter
       if (this.selectedCategory !== 'allproducts') {
         matchesCategory = product.category.toLowerCase() === this.selectedCategory.toLowerCase();
       }
-
+ 
       // Price filter
       if (this.minPrice !== null) {
         matchesPrice = matchesPrice && product.startPrice >= this.minPrice;
@@ -101,30 +101,30 @@ export class AuctionListComponent implements OnInit, OnDestroy {
       if (this.maxPrice !== null) {
         matchesPrice = matchesPrice && product.startPrice <= this.maxPrice;
       }
-
+ 
       return matchesCategory && matchesPrice;
     });
   }
-
+ 
   filterByCategory(category: string): void {
     this.selectedCategory = category;
     this.applyFilters();
   }
-
+ 
   onPriceChange(): void {
     // Convert empty strings to null
     if (this.minPrice === 0) this.minPrice = null;
     if (this.maxPrice === 0) this.maxPrice = null;
-
+ 
     // Validate price range
     if (this.minPrice !== null && this.maxPrice !== null && this.minPrice > this.maxPrice) {
       // Swap values if min is greater than max
       [this.minPrice, this.maxPrice] = [this.maxPrice, this.minPrice];
     }
-
+ 
     this.applyFilters();
   }
-
+ 
   ngOnDestroy(): void {
     // Clean up object URLs
     this.auctions.forEach(product => {
@@ -152,4 +152,4 @@ export class AuctionListComponent implements OnInit, OnDestroy {
     });
   }
 }
-
+ 
