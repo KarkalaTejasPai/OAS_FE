@@ -1,34 +1,49 @@
-<app-header></app-header>
-<div class="reviews-container">
-  <h2>My Reviews</h2>
-  
-  <div class="reviews-grid">
-    <div *ngFor="let review of reviews" class="review-card">
-      <div class="review-header">
-        <div class="stars">
-          <span *ngFor="let star of [].constructor(5); let i = index">
-            <i [class.filled]="i < review.rating">★</i>
-          </span>
-        </div>
-        <div class="review-date">
-          {{review.date | date:'medium'}}
-        </div>
+<div class="page-container">
+  <app-header></app-header>
+  <div class="content-wrap">
+    <div class="reviews-container">
+      <div class="d-flex align-items-center mb-4">
+        <button class="btn btn-secondary back-button" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <h2 class="text-center flex-grow-1 mb-0">Reviews Received</h2>
       </div>
-      <div class="review-content">
-        <p class="review-text">{{review.comment}}</p>
+      
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>Reviewer ID</th>
+              <th>Rating</th>
+              <th>Comment</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let review of reviews">
+              <td>{{review.reviewerId}}</td>
+              <td>
+                <div class="stars">
+                  <span *ngFor="let star of [].constructor(5); let i = index">
+                    <i [class.filled]="i < review.rating">★</i>
+                  </span>
+                </div>
+              </td>
+              <td>{{review.comment}}</td>
+              <td>{{review.date | date:'medium'}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="review-footer">
-        <span>Review for User ID: {{review.targetUserId}}</span>
+    
+      <div *ngIf="reviews.length === 0" class="no-reviews">
+        <p>No reviews found.</p>
+      </div>
+    
+      <div *ngIf="errorMessage" class="error-message">
+        {{errorMessage}}
       </div>
     </div>
   </div>
-
-  <div *ngIf="reviews.length === 0" class="no-reviews">
-    <p>No reviews found.</p>
-  </div>
-
-  <div *ngIf="errorMessage" class="error-message">
-    {{errorMessage}}
-  </div>
+  <app-footer class="footer"></app-footer>
 </div>
-<app-footer></app-footer>

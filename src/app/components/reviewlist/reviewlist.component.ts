@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 
@@ -18,14 +18,20 @@ interface Review {
   standalone: true,
   imports: [CommonModule, HeaderComponent, FooterComponent],
   templateUrl: './reviewlist.component.html',
-  styleUrls: ['./reviewlist.component.css']
+  styleUrls: [
+    './reviewlist.component.css',
+    '../../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css'
+  ]
 })
 export class ReviewListComponent implements OnInit {
   reviews: Review[] = [];
   errorMessage: string = '';
   userId: number = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     const loggedInUserId = localStorage.getItem('userId');
@@ -49,5 +55,9 @@ export class ReviewListComponent implements OnInit {
           this.errorMessage = 'Failed to load reviews. Please try again later.';
         }
       });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

@@ -1,5 +1,11 @@
 <app-header></app-header>
 <div class="review-form">
+    <div class="d-flex align-items-center mb-4">
+        <button class="btn btn-secondary back-button" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <h2 class="text-center flex-grow-1 mb-0">Submit Review</h2>
+    </div>
     <div class="reviewer-info" *ngIf="reviewerId">
         <p>Submitting review as User ID: {{reviewerId}}</p>
     </div>
