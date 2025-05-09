@@ -1,0 +1,247 @@
+.profile-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0;
+    padding: 30px;
+    background: linear-gradient(135deg, #ffffff, #f5f5f5);
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.profile-header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background-color: #22c7dd;
+}
+
+h2 {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.profile-content {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+}
+
+.profile-field {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.profile-field:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.profile-field label {
+    width: 120px;
+    color: #555;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.profile-field span {
+    flex: 1;
+    color: #333;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.form-field {
+    margin: 20px 0;
+}
+
+.form-field input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+.form-field input:focus {
+    outline: none;
+    border-color: #22c7dd;
+    box-shadow: 0 0 0 3px rgba(34, 199, 221, 0.2);
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+button {
+    padding: 12px 28px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.btn-edit {
+    background-color: #22c7dd;
+    color: white;
+}
+
+.btn-auctions {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-save {
+    background-color: #22c7dd;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Enhanced Animation for form transitions */
+.edit-form {
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Improved Responsive Design */
+@media screen and (max-width: 768px) {
+    .profile-container {
+        width: 95%;
+        margin: 20px auto;
+        padding: 20px;
+        position: relative;
+        transform: none;
+        left: auto;
+        top: auto;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .profile-field {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    .profile-field label {
+        margin-bottom: 8px;
+        color: #666;
+    }
+
+    .profile-field span {
+        padding-left: 0;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+    }
+}
+
+/* Enhanced Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .profile-container {
+        background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+        color: #fff;
+    }
+
+    .profile-field {
+        background-color: #333;
+        border: 1px solid #444;
+    }
+
+    .profile-field:hover {
+        background-color: #3a3a3a;
+    }
+
+    .profile-field label {
+        color: #aaa;
+    }
+
+    .profile-field span {
+        color: #fff;
+    }
+
+    .form-field input {
+        background-color: #333;
+        color: #fff;
+        border-color: #444;
+    }
+
+    .form-field input:focus {
+        border-color: #22c7dd;
+        box-shadow: 0 0 0 3px rgba(34, 199, 221, 0.15);
+    }
+
+    h2 {
+        color: #fff;
+    }
+
+    .profile-header {
+        border-bottom-color: #444;
+    }
+
+    .profile-content {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+}

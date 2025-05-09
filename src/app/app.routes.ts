@@ -13,6 +13,8 @@ import { authGuard } from "./guards/auth.guard";
 import { UploadImageComponent } from "../app/upload-image/upload-image.component";
 import { ReviewComponent } from "./components/review/review.component";
 import { ReviewListComponent } from "./components/reviewlist/reviewlist.component";
+import { ProfileComponent } from "./components/profile/profile.component";
+import { SellerReviewListComponent } from "./components/sellerreviewlist/sellerreviewlist.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -23,10 +25,14 @@ export const routes: Routes = [
   { path: "auction-list", component: AuctionListComponent },
   { path: "review", component: ReviewComponent },
   { path: "reviewlist", component: ReviewListComponent },
+  { path: "sellerreview", component: SellerReviewListComponent},
   {
     path: 'auction-detail/:id',
     component: AuctionDetailComponent,
     canActivate: [authGuard]
+  },
+  {
+    path:"profile",component:ProfileComponent
   },
   {
     path: "sell-product",
