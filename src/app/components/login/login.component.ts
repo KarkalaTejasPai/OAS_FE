@@ -46,17 +46,18 @@ export class LoginComponent {
           if (response && response.token) {
             // Store auth data
             localStorage.setItem('token', response.token);
-            
-            // Safely handle the role
-            const userRole = response.role || 'User'; // Default to 'user' if role is undefined
-            localStorage.setItem('userRole', userRole);
+            // localStorage.setItem('role', userRole);
             localStorage.setItem('isLoggedIn', 'true');
-
+            const role=localStorage.getItem('role');
             // Redirect based on role
-            if (userRole  === 'User') {
+            if (role  === 'User') {
               this.router.navigate(['/']);
-            } else {
+            } else if(role === 'Admin') {
               this.router.navigate(['/admin-dashboard']);
+            }
+            else{
+              console.log('Invalid role:', role);
+              this.loginError = 'Invalid role';
             }
           }
         },
