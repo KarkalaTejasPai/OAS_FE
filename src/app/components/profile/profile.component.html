@@ -1,0 +1,49 @@
+<div class="profile-container">
+    <div class="profile-card">
+      <h2>My Profile</h2>
+      
+      <div class="profile-content" *ngIf="user.userId">
+        <div *ngIf="!isEditing">
+          <div class="profile-field">
+            <label>Name:</label>
+            <span>{{user.name}}</span>
+          </div>
+          <div class="profile-field">
+            <label>Email:</label>
+            <span>{{user.email}}</span>
+          </div>
+          <div class="profile-field">
+            <label>Phone:</label>
+            <span>{{user.phone}}</span>
+          </div>
+          
+          <div class="button-group">
+            <button (click)="editProfile()" class="btn-edit">Edit Profile</button>
+            <button (click)="viewAuctions()" class="btn-auctions">My Auctions</button>
+          </div>
+        </div>
+  
+        <form *ngIf="isEditing">
+          <div class="form-field">
+            <label>Name:</label>
+            <input type="text" [(ngModel)]="user.name" name="name">
+          </div>
+          <div class="form-field">
+            <label>Email:</label>
+            <input type="email" [(ngModel)]="user.email" name="email">
+          </div>
+          <div class="form-field">
+            <label>Phone:</label>
+            <input type="tel" [(ngModel)]="user.phone" name="phone">
+          </div>
+  
+          <div class="button-group">
+            <button type="button" (click)="saveProfile()">Save</button>
+            <button type="button" (click)="cancelEdit()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
