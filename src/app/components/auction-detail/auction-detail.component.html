@@ -112,7 +112,7 @@
             <div class="bid-info mb-4">
               <div class="row">
                 <div class="col-6">
-                  <div class="fw-bold fs-4">₹{{currentBidAmount$ | async}}</div>
+                  <div class="fw-bold fs-4">₹{{currentBid()}}</div>
                 </div>
                 <div class="col-6">
                   <span class="text-muted small">Bids:</span>
@@ -150,15 +150,25 @@
             </form> 
 
             <div class="d-grid gap-2">
-              <button class="btn btn-accent" routerLink="/payment">
+              <button class="btn btn-accent" 
+                [routerLink]="isAuctionEnded ? '/payment' : null"
+                [disabled]="!isAuctionEnded">
                 <i class="bi bi-lightning-fill me-1"></i> 
-                Buy Now: ₹{{auction.currentBid * 1.2}}
+                    Buy Now (Available after auction ends)
               </button>
              
               <button class="btn btn-outline-secondary" routerLink="/review">
                 <i class="bi bi-flag me-1"></i> Review
               </button>
             </div>
+            
+            <br>
+            
+            <!-- Add this for testing -->
+            <button class="btn btn-sm btn-info mt-2" (click)="testMaxBidApi()">
+              Test Max Bid API
+            </button>
+            
           </div>
           <div class="card-footer bg-white">
             

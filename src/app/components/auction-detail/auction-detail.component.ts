@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { HeaderComponent } from '../shared/header/header.component';
 import { FooterComponent } from '../shared/footer/footer.component';
@@ -49,6 +49,12 @@ interface BidRequest {
   bidTime: string;
 }
 
+// Add this interface for max bid response
+interface MaxBidResponse {
+  amount: number;
+  buyerID: number;
+}
+
 @Component({
   selector: 'app-auction-detail',
   standalone: true,
@@ -73,17 +79,22 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
   auctionData: AuctionData | null = null;
   private auctionApiUrl = 'https://localhost:44385/api/Auction';
   private bidApiUrl = 'https://localhost:44385/api/Bid';
-  private bidSubject = new BehaviorSubject<number>(0);
-  currentBidAmount$ = this.bidSubject.asObservable();
+  currentBid = signal<number>(0);
   private bidsCountSubject = new BehaviorSubject<number>(0);
   bidsCount$ = this.bidsCountSubject.asObservable();
   private timeLeftInterval: any;
   timeLeft: string = '';
   isBidding: boolean = false;
-  bidCooldown: number = 5;
+  bidCooldown: number = 10; // Changed to 10 seconds
   private bidCooldownInterval: any;
   isAuctionEnded: boolean = false;
   buyNowPrice: number = 0;
+  private bidRefreshInterval: any;
+  private currentMaxBid: MaxBidResponse | null = null;
+  private maxBidUrl = 'https://localhost:44385/api/Bid/max';
+  private bidCountUrl = 'https://localhost:44385/api/Bid/count';
+  currentBidCount: number = 0;
+  private bidCountInterval: any;
 
   constructor(
     private http: HttpClient,
@@ -151,7 +162,7 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
         this.auctionData = data;
         if (this.auction) {
           const initialBid = parseFloat(this.auctionData.currentBid);
-          this.bidSubject.next(initialBid);
+          this.currentBid.set(initialBid);
           this.bidsCountSubject.next(0);
           this.auction.currentBid = initialBid;
           this.auction.startPrice = initialBid;
@@ -162,6 +173,9 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
           this.timeLeftInterval = setInterval(() => {
             this.updateTimeLeft();
           }, 1000);
+
+          // Start bid refresh interval
+          this.startBidRefresh(data.auctionId);
         }
       },
       error: (error) => {
@@ -180,7 +194,9 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
     if (timeDiff <= 0) {
       this.timeLeft = 'Auction Ended';
       this.isAuctionEnded = true;
-      this.buyNowPrice = this.bidSubject.value; // Set buy now price to final bid
+      // Set buy now price to final bid plus 20%
+      this.buyNowPrice = Math.ceil(this.currentBid() * 1.2);
+      
       if (this.timeLeftInterval) {
         clearInterval(this.timeLeftInterval);
       }
@@ -197,7 +213,7 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
 
   get minimumBid(): number {
     if (!this.auction) return 0;
-    return this.bidSubject.value + (this.auction.incrementAmount || 10);
+    return this.currentBid() + (this.auction.incrementAmount || 10);
   }
 
   get progressWidth(): string {
@@ -230,8 +246,20 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
 
   placeBid(): void {
     if (!this.auction || !this.auctionData || this.isBidding) return;
+
+    const currentUserId = this.getCurrentUserId();
+    if (currentUserId === 0) {
+      this.errorMessage = 'Please login to place a bid';
+      return;
+    }
+
+    // Check if current user has the highest bid
+    if (this.currentMaxBid?.buyerID === currentUserId) {
+      this.errorMessage = 'You already have the highest bid';
+      return;
+    }
     
-    if (this.bidAmount <= this.bidSubject.value) {
+    if (this.bidAmount <= this.currentBid()) {
       this.errorMessage = 'Bid amount must be higher than current bid';
       return;
     }
@@ -248,7 +276,7 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
     const bidRequest: BidRequest = {
       bidID: 0, // Will be assigned by the API
       auctionID: this.auctionData.auctionId,
-      buyerID: 1, // Replace with actual logged-in user's ID
+      buyerID: currentUserId, // Use the retrieved userId
       amount: this.bidAmount,
       bidTime: new Date().toISOString()
     };
@@ -257,15 +285,13 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
     this.http.post<BidRequest>(this.bidApiUrl, bidRequest).subscribe({
       next: (response) => {
         // Update local state
-        this.bidSubject.next(this.bidAmount);
-        this.bidsCountSubject.next(this.bidsCountSubject.value + 1);
+        this.currentBid.set(this.bidAmount);
         
         if (this.auction) {
           this.auction.currentBid = this.bidAmount;
-          this.auction.bids = this.bidsCountSubject.value;
           this.errorMessage = '';
           // Set next minimum bid
-          this.bidAmount = this.auction.currentBid + (this.auction.incrementAmount || 10);
+          this.bidAmount = this.currentBid() + (this.auction.incrementAmount || 10);
         }
         
         // Start the cooldown timer after successful bid
@@ -280,7 +306,7 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
 
   private startBidCooldown(): void {
     this.isBidding = true;
-    this.bidCooldown = 5;
+    this.bidCooldown = 10; // Changed to 10 seconds
     
     this.bidCooldownInterval = setInterval(() => {
       this.bidCooldown--;
@@ -291,17 +317,125 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  buyNow(): void {
-    if (!this.isAuctionEnded || !this.auction || !this.auctionData) return;
+  private startBidRefresh(auctionId: number): void {
+    // Clear any existing intervals
+    if (this.bidRefreshInterval) {
+      clearInterval(this.bidRefreshInterval);
+    }
+    if (this.bidCountInterval) {
+      clearInterval(this.bidCountInterval);
+    }
 
-    // Implement your buy now logic here
-    console.log('Purchasing item at price:', this.buyNowPrice);
-    // Add API call to handle purchase
+    // Initial fetches
+    this.fetchCurrentMaxBid(auctionId);
+    this.fetchBidCount(auctionId);
+
+    // Set up new intervals
+    this.bidRefreshInterval = setInterval(() => {
+      this.fetchCurrentMaxBid(auctionId);
+    }, 6000);
+
+    this.bidCountInterval = setInterval(() => {
+      this.fetchBidCount(auctionId);
+    }, 8000);
+  }
+
+  private fetchCurrentMaxBid(auctionId: number): void {
+    const url = `${this.maxBidUrl}/${auctionId}`;
+    console.log('Fetching max bid at:', new Date().toISOString(), 'URL:', url);
+    
+    this.http.get<number>(url).subscribe({
+      next: (maxBid) => {
+        console.log('Max bid API response:', maxBid);
+        
+        // Update the signal value if the new amount is higher
+        if (maxBid > this.currentBid()) {
+          console.log('Updating bid:', {
+            previous: this.currentBid(),
+            new: maxBid,
+            auctionId: auctionId
+          });
+          
+          this.currentBid.set(maxBid);
+          
+          if (this.auction) {
+            this.auction.currentBid = maxBid;
+            this.bidAmount = maxBid + (this.auction.incrementAmount || 10);
+          }
+        }
+      },
+      error: (error) => {
+        console.error('Max bid API Error:', {
+          timestamp: new Date().toISOString(),
+          status: error.status,
+          message: error.message,
+          url: url,
+          auctionId: auctionId
+        });
+      }
+    });
+  }
+
+  private fetchBidCount(auctionId: number): void {
+    console.log('Fetching bid count at:', new Date().toISOString());
+    
+    this.http.get<number>(`${this.bidCountUrl}/${auctionId}`).subscribe({
+      next: (count) => {
+        console.log('Bid count response:', count);
+        this.currentBidCount = count;
+        this.bidsCountSubject.next(count);
+        if (this.auction) {
+          this.auction.bids = count;
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching bid count:', error);
+      }
+    });
+  }
+
+  buyNow(): void {
+    if (!this.isAuctionEnded || !this.auction || !this.auctionData) {
+      this.errorMessage = 'Buy Now is only available after the auction ends';
+      return;
+    }
+
+    const currentUserId = this.getCurrentUserId();
+    if (currentUserId === 0) {
+      this.errorMessage = 'Please login to purchase';
+      return;
+    }
+
+    // Create purchase request
+    const purchaseRequest = {
+      auctionId: this.auctionData.auctionId,
+      productId: this.auction.productID,
+      buyerId: currentUserId, // Use the retrieved userId
+      purchaseAmount: this.buyNowPrice,
+      purchaseDate: new Date().toISOString()
+    };
+
+    // Add your API call here to handle the purchase
+    console.log('Processing purchase:', purchaseRequest);
+    // Navigate to payment page or handle purchase flow
+    window.location.href = `/payment?amount=${this.buyNowPrice}&productId=${this.auction.productID}`;
+  }
+
+  private getCurrentUserId(): number {
+    const userId = localStorage.getItem('userId');
+    return userId ? parseInt(userId) : 0;
+  }
+
+  // Add this method to test the API manually
+  testMaxBidApi(): void {
+    if (this.auctionData) {
+      console.log('Testing max bid API for auction:', this.auctionData.auctionId);
+      this.fetchCurrentMaxBid(this.auctionData.auctionId);
+    }
   }
 
   ngOnDestroy(): void {
     // Clean up subscriptions
-    this.bidSubject.complete();
     this.bidsCountSubject.complete();
     
     // Clean up object URLs
@@ -317,6 +451,14 @@ export class AuctionDetailComponent implements OnInit, OnDestroy {
     // Clear the cooldown interval
     if (this.bidCooldownInterval) {
       clearInterval(this.bidCooldownInterval);
+    }
+
+    if (this.bidRefreshInterval) {
+      clearInterval(this.bidRefreshInterval);
+    }
+
+    if (this.bidCountInterval) {
+      clearInterval(this.bidCountInterval);
     }
   }
 }
